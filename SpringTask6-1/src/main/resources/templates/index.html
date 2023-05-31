@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main.html">
+<div layout:fragment="content">
+        <div class="col-4" th:each="appRequest:${appRequests}">
+            <div class="card-body border border-3">
+                <h6 th:class="${appRequest.handled!=false?'card-title text-success':'card-title text-danger'}"
+                    th:text="${appRequest.handled!=false?'Заявка обработана':'Необработанная заявка'}"></h6>
+                <h5 class="card-title" th:text="'Заявка от' + ' ' + ${appRequest.userName}"></h5>
+                <p class="card-text" th:text="'Название курса:' + ' ' + ${appRequest.courses.name}"></p>
+                <p class="card-text" th:text="${appRequest.commentary}"></p>
+                <h6 class="text-body-secondary" th:text="'Тел:' + ' ' + ${appRequest.phone}">Phone number</h6>
+                <a th:href="@{'/details/'+${appRequest.id}}" style="color: blue">Подробнее</a>
+            </div>
+        </div>
+</div>
+<div class="modal fade" id="addRequestModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form th:action="@{'/add-request'}" method="post">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Добавить новую заявку</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">ФИО:</label>
+                        <input type="text" class="form-control" name="userName" placeholder="Введите ФИО">
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="form-label">Курс:</label>
+                        <select class="form-select" aria-label="Default select example" name="courses.id">
+                            <option th:each="course: ${courses}" th:value="${course.id}" th:text="${course.name}"></option>
+                        </select>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <label class="form-label">Телефон:</label>
+                        <input type="tel" class="form-control" name="phone">
+                    </div>
+                    <br><br>
+                    <div class="form-floating">
+                        <label class="form-label">Комментарии:</label>
+                        <textarea class="form-control" name="commentary"></textarea>
+                    </div>
+                    <br><br>
+                    <div class="form-group">
+                        <button class="btn btn-success">Добавить заметку</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button class="btn btn-primary">Добавить заявку</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

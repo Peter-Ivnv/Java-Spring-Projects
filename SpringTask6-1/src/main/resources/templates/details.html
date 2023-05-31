@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="main.html">
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-6 mx-auto">
+
+        </div>
+    </div>
+    <div class="row">
+        <form th:action="@{'/update'}" method="post">
+            <div class="row">
+                <input type="hidden" th:value="${appRequest.id}" name="id">
+                <div class="form-group">
+                    <label class="form-label">ФИО:</label>
+                    <input type="text" class="form-control" name="userName" th:value="${appRequest.userName}">
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="form-label">Курс:</label>
+                    <select class="form-select" aria-label="Default select example" name="courses.id">
+                        <option th:selected="${appRequest.courses.id == course.id}"
+                                th:each="course: ${courses}" th:value="${course.id}"
+                                th:text="${course.name}"></option>
+                    </select>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <label class="form-label">Телефон:</label>
+                    <input type="tel" class="form-control" name="phone" th:value="${appRequest.phone}">
+                </div>
+                <br><br>
+                <div class="form-floating">
+                    <label class="form-label">Комментарии:</label>
+                    <textarea class="form-control" name="commentary" th:value="${appRequest.commentary}"></textarea>
+                </div>
+                <br><br>
+                <div class="form-group">
+                    <button class="btn btn-success">Обработать заявку</button>
+                </div>
+            </div>
+        </form>
+        <br><br>
+        <div class="form-group">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Удалить
+            </button>
+        </div>
+        <p></p>
+
+
+        <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{'/delete-request'}" method="post">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Вы точно хотите удалить заявку?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                        </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="id" th:value="${appRequest.id}">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                            <button class="btn btn-primary">Удалить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>
